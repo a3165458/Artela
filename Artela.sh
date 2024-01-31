@@ -98,4 +98,4 @@ sudo systemctl start artelad
 echo '====================== 安装完成 ==========================='
 echo -e "\e[1;32m 检查状态: \e[0m\e[1;36m sudo systemctl status artelad \e[0m"
 echo -e "\e[1;32m 查看日志: \e[0m\e[1;36m sudo journalctl -fu artelad -o cat \e[0m"
-echo -e "\e[1;32m 检查同步状态: \e[0m\e[1;36m artelad status | jq .SyncInfo.catching_up \e[0m"
+echo -e "\e[1;32m 检查同步状态: \e[0m\e[1;36m artelad status | jq .SyncInfo \e[0m"

@@ -35,7 +35,7 @@ cd $HOME
 rm -rf artela
 git clone https://github.com/artela-network/artela
 cd artela
-git checkout v0.4.7-rc4
+git checkout v0.4.7-rc6
 make install
 
 # 配置artelad

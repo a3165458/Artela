@@ -129,3 +129,94 @@ sudo systemctl start artelad
 echo '====================== 安装完成 ==========================='
 
 }
+
+# 创建钱包
+function add_wallet() {
+    read -p "请输入钱包名称: " wallet_name
+    artelad keys add "$wallet_name"
+}
+
+# 导入钱包
+function import_wallet() {
+    read -p "请输入钱包名称: " wallet_name
+    artelad keys add "$wallet_name" --recover
+}
+
+# 查询余额
+function check_balances() {
+    read -p "请输入钱包地址: " wallet_address
+    artelad query bank balances "$wallet_address" 
+}
+
+# 查看节点同步状态
+function check_sync_status() {
+    artelad status | jq .sync_info
+}
+
+# 查看babylon服务状态
+function check_service_status() {
+    systemctl status artelad
+}
+
+# 节点日志查询
+function view_logs() {
+    sudo journalctl -f -u artelad.service 
+}
+
+# 卸载脚本功能
+function uninstall_script() {
+    local alias_name="babylondf"
+    local shell_rc_files=("$HOME/.bashrc" "$HOME/.zshrc")
+
+    for shell_rc in "${shell_rc_files[@]}"; do
+        if [ -f "$shell_rc" ]; then
+            # 移除快捷键
+            sed -i "/alias $alias_name='bash $SCRIPT_PATH'/d" "$shell_rc"
+        fi
+    done
+
+    echo "快捷键 '$alias_name' 已从shell配置文件中移除。"
+    read -p "是否删除脚本文件本身？(y/n): " delete_script
+    if [[ "$delete_script" == "y" ]]; then
+        rm -f "$SCRIPT_PATH"
+        echo "脚本文件已删除。"
+    else
+        echo "脚本文件未删除。"
+    fi
+}
+
+# 主菜单
+function main_menu() {
+    clear
+    echo "脚本以及教程由推特用户大赌哥 @y95277777 编写，免费开源，请勿相信收费"
+    echo "================================================================"
+    echo "节点社区 Telegram 群组:https://t.me/niuwuriji"
+    echo "节点社区 Telegram 频道:https://t.me/niuwuriji"
+    echo "请选择要执行的操作:"
+    echo "1. 安装节点"
+    echo "2. 创建钱包"
+    echo "3. 导入钱包"
+    echo "4. 查看钱包地址余额"
+    echo "5. 查看节点同步状态"
+    echo "6. 查看当前服务状态"
+    echo "7. 运行日志查询"
+    echo "8. 卸载脚本"
+    echo "9. 设置快捷键"  
+    read -p "请输入选项（1-9）: " OPTION
+
+    case $OPTION in
+    1) install_node ;;
+    2) add_wallet ;;
+    3) import_wallet ;;
+    4) check_balances ;;
+    5) check_sync_status ;;
+    6) check_service_status ;;
+    7) view_logs ;;
+    8) uninstall_script ;;
+    9) check_and_set_alias ;;  
+    *) echo "无效选项。" ;;
+    esac
+}
+
+# 显示主菜单
+main_menu

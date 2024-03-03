@@ -150,7 +150,7 @@ function check_balances() {
 
 # 查看节点同步状态
 function check_sync_status() {
-    artelad status | jq .sync_info
+    artelad status 2>&1 | jq .SyncInfo
 }
 
 # 查看babylon服务状态

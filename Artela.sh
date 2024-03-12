@@ -59,7 +59,6 @@ sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
 echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 go version
-sleep 1
 
 # 安装所有二进制文件
 cd $HOME
@@ -109,6 +108,7 @@ LimitNOFILE=10000
 WantedBy=multi-user.target
 EOF
 
+
 # 重置Tendermint数据
 artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
 
@@ -120,9 +120,9 @@ sudo snap install lz4
 curl -L https://t-ss.nodeist.net/artela/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad --strip-components 2
 
 # 重新加载和启动服务
-sudo systemctl daemon-reload
-sudo systemctl enable artelad
-sudo systemctl start artelad
+sudo -S systemctl daemon-reload
+sudo -S systemctl enable artelad
+sudo -S systemctl start artelad
 
 
 # 完成设置

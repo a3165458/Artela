@@ -52,12 +52,17 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev
 
 # 安装Go
-ver="1.20.3"
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
+rm -rf $HOME/go
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile
-source $HOME/.bash_profile
+cd $HOME
+curl https://dl.google.com/go/go1.20.3.linux-amd64.tar.gz | sudo tar -C/usr/local -zxvf -
+cat <<'EOF' >>$HOME/.profile
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export GO111MODULE=on
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+EOF
+source $HOME/.profile
 go version
 
 # 安装所有二进制文件

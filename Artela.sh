@@ -49,7 +49,7 @@ export NODE_MONIKER=$NODE_MONIKER
 
 # 更新和安装必要的软件
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev
+sudo apt install -y curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev lz4
 
 # 安装Go
 rm -rf $HOME/go
@@ -121,7 +121,7 @@ sudo apt install snapd -y
 sudo snap install lz4
 
 # 下载并解压快照
-curl -L https://t-ss.nodeist.net/artela/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad --strip-components 2
+curl https://snapshots-testnet.nodejumper.io/artela-testnet/artela-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
 
 # 重新加载和启动服务
 sudo -S systemctl daemon-reload

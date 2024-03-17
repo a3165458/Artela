@@ -124,6 +124,7 @@ sudo snap install lz4
 curl https://snapshots-testnet.nodejumper.io/artela-testnet/artela-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
 
 # 重新加载和启动服务
+export PATH=$PATH:$HOME/go/bin
 sudo -S systemctl daemon-reload
 sudo -S systemctl enable artelad
 sudo -S systemctl start artelad

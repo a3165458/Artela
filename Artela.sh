@@ -121,7 +121,8 @@ sudo apt install snapd -y
 sudo snap install lz4
 
 # 下载并解压快照
-curl https://testnet-files.itrocket.net/artela/snap_artela.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
+SNAP_NAME=$(curl -s https://ss-t.artela.nodestake.org/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
+curl -o - -L https://ss-t.artela.nodestake.org/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/.artelad
 
 # 重新加载和启动服务
 sudo systemctl daemon-reload
@@ -131,6 +132,7 @@ sudo systemctl restart artelad && sudo journalctl -u artelad -f
 
 # 完成设置
 echo '====================== 安装完成 ==========================='
+echo '安装完成请重新连接VPS，以启用对应快捷键功能'
 
 }
 
@@ -168,58 +170,60 @@ function view_logs() {
 }
 
 # 卸载脚本功能
-function uninstall_script() {
-    local alias_name="babylondf"
-    local shell_rc_files=("$HOME/.bashrc" "$HOME/.zshrc")
+function uninstall_node() {
+    echo "你确定要卸载Artela 节点程序吗？这将会删除所有相关的数据。[Y/N]"
+    read -r -p "请确认: " response
 
-    for shell_rc in "${shell_rc_files[@]}"; do
-        if [ -f "$shell_rc" ]; then
-            # 移除快捷键
-            sed -i "/alias $alias_name='bash $SCRIPT_PATH'/d" "$shell_rc"
-        fi
-    done
+    case "$response" in
+        [yY][eE][sS]|[yY]) 
+            echo "开始卸载节点程序..."
+            sudo systemctl stop artelad && sudo systemctl disable artelad && sudo rm /etc/systemd/system/artelad.service && sudo systemctl daemon-reload && rm -rf $HOME/.artelad && rm -rf artela && sudo rm -rf $(which artelad)
 
-    echo "快捷键 '$alias_name' 已从shell配置文件中移除。"
-    read -p "是否删除脚本文件本身？(y/n): " delete_script
-    if [[ "$delete_script" == "y" ]]; then
-        rm -f "$SCRIPT_PATH"
-        echo "脚本文件已删除。"
-    else
-        echo "脚本文件未删除。"
-    fi
+            echo "节点程序卸载完成。"
+            ;;
+        *)
+            echo "取消卸载操作。"
+            ;;
+    esac
 }
+
 
 # 主菜单
 function main_menu() {
-    clear
-    echo "脚本以及教程由推特用户大赌哥 @y95277777 编写，免费开源，请勿相信收费"
-    echo "================================================================"
-    echo "节点社区 Telegram 群组:https://t.me/niuwuriji"
-    echo "节点社区 Telegram 频道:https://t.me/niuwuriji"
-    echo "请选择要执行的操作:"
-    echo "1. 安装节点"
-    echo "2. 创建钱包"
-    echo "3. 导入钱包"
-    echo "4. 查看钱包地址余额"
-    echo "5. 查看节点同步状态"
-    echo "6. 查看当前服务状态"
-    echo "7. 运行日志查询"
-    echo "8. 卸载脚本"
-    echo "9. 设置快捷键"  
-    read -p "请输入选项（1-9）: " OPTION
+    while true; do
+        clear
+        echo "脚本以及教程由推特用户大赌哥 @y95277777 编写，免费开源，请勿相信收费"
+        echo "================================================================"
+        echo "节点社区 Telegram 群组:https://t.me/niuwuriji"
+        echo "节点社区 Telegram 频道:https://t.me/niuwuriji"
+        echo "退出脚本，请按键盘ctrl c退出即可"
+        echo "请选择要执行的操作:"
+        echo "1. 安装节点"
+        echo "2. 创建钱包"
+        echo "3. 导入钱包"
+        echo "4. 查看钱包地址余额"
+        echo "5. 查看节点同步状态"
+        echo "6. 查看当前服务状态"
+        echo "7. 运行日志查询"
+        echo "8. 卸载节点"
+        echo "9. 设置快捷键"  
+        read -p "请输入选项（0-9）: " OPTION
 
-    case $OPTION in
-    1) install_node ;;
-    2) add_wallet ;;
-    3) import_wallet ;;
-    4) check_balances ;;
-    5) check_sync_status ;;
-    6) check_service_status ;;
-    7) view_logs ;;
-    8) uninstall_script ;;
-    9) check_and_set_alias ;;  
-    *) echo "无效选项。" ;;
-    esac
+        case $OPTION in
+        1) install_node ;;
+        2) add_wallet ;;
+        3) import_wallet ;;
+        4) check_balances ;;
+        5) check_sync_status ;;
+        6) check_service_status ;;
+        7) view_logs ;;
+        8) uninstall_node ;;
+        9) check_and_set_alias ;;
+        *) echo "无效选项。" ;;
+        esac
+        echo "按任意键返回主菜单..."
+        read -n 1
+    done
 }
 
 # 显示主菜单

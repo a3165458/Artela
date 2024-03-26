@@ -169,7 +169,7 @@ function view_logs() {
     sudo journalctl -f -u artelad.service 
 }
 
-# 卸载脚本功能
+# 卸载节点功能
 function uninstall_node() {
     echo "你确定要卸载Artela 节点程序吗？这将会删除所有相关的数据。[Y/N]"
     read -r -p "请确认: " response

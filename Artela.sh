@@ -60,10 +60,9 @@ sudo apt install -y curl iptables build-essential git wget jq make gcc nano tmux
 
 # 安装Go
 sudo rm -rf /usr/local/go
-curl -L https://go.dev/dl/go1.21.6.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
-source .bash_profile
-
+curl -L https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
+echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bashrc
+source $HOME/.bashrc
 
 # 安装所有二进制文件
 cd $HOME
@@ -122,7 +121,7 @@ sudo apt install snapd -y
 sudo snap install lz4
 
 # 下载并解压快照
-curl https://snapshots-testnet.nodejumper.io/artela-testnet/artela-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
+curl https://testnet-files.itrocket.net/artela/snap_artela.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
 
 # 重新加载和启动服务
 sudo systemctl daemon-reload

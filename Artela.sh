@@ -138,14 +138,12 @@ echo '安装完成请重新连接VPS，以启用对应快捷键功能'
 
 # 创建钱包
 function add_wallet() {
-    read -p "请输入钱包名称: " wallet_name
-    artelad keys add "$wallet_name"
+    artelad keys add wallet
 }
 
 # 导入钱包
 function import_wallet() {
-    read -p "请输入钱包名称: " wallet_name
-    artelad keys add "$wallet_name" --recover
+    artelad keys add wallet --recover
 }
 
 # 查询余额

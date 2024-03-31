@@ -62,7 +62,8 @@ sudo apt install -y curl iptables build-essential git wget jq make gcc nano tmux
 sudo rm -rf /usr/local/go
 curl -L https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
 echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+
 
 # 安装所有二进制文件
 cd $HOME

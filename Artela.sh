@@ -106,7 +106,7 @@ function install_node() {
     sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.artelad/config/config.toml
 
     # 使用 PM2 启动节点进程
-    pm2 start /usr/local/bin/artelad --name artela-node -- start --watch
+    pm2 start /root/go/bin/artelad --name artela-node -- start --watch
     pm2 save
     pm2 startup systemd
 

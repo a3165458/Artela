@@ -122,7 +122,7 @@ function check_service_status() {
 
 # Artela 节点日志查询
 function view_logs() {
-    pm2 logs artela-node
+    pm2 logs artelad
 }
 
 # 卸载节点功能
@@ -133,7 +133,7 @@ function uninstall_node() {
     case "$response" in
         [yY][eE][sS]|[yY]) 
             echo "开始卸载节点程序..."
-            pm2 stop artela-node && pm2 delete artela-node
+            pm2 stop artelad && pm2 delete artelad
             rm -rf $HOME/.artelad $HOME/artela $(which artelad)
             echo "节点程序卸载完成。"
             ;;

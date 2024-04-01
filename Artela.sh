@@ -82,6 +82,7 @@ function install_node() {
     sudo rm -rf /usr/local/go
     curl -L https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
     echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
+    export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
     source $HOME/.bash_profile
 
     # 安装所有二进制文件
@@ -105,7 +106,7 @@ function install_node() {
     sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.artelad/config/config.toml
 
     # 使用 PM2 启动节点进程
-    pm2 start artelad --name artela-node -- start
+    pm2 start artelad --name artela-node -- start --watch
     pm2 save
     pm2 startup systemd
 
@@ -143,15 +144,15 @@ function main_menu() {
         echo "2. 查看服务状态"
         echo "3. 运行日志查询"
         echo "4. 卸载节点"
-        echo "9. 设置快捷键"  
-        read -p "请输入选项（1-4, 9）: " OPTION
+        echo "5. 设置快捷键"  
+        read -p "请输入选项（1-5）: " OPTION
 
         case $OPTION in
         1) install_node ;;
         2) check_service_status ;;
         3) view_logs ;;
         4) uninstall_node ;;
-        9) check_and_set_alias ;;
+        5) check_and_set_alias ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."

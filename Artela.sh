@@ -71,7 +71,7 @@ function install_node() {
     fi
 
     # 设置变量
-    read -r -p "请输入节点名称: " NODE_MONIKER
+    read -r -p "请输入你想设置的节点名称: " NODE_MONIKER
     export NODE_MONIKER=$NODE_MONIKER
 
     # 更新和安装必要的软件
@@ -114,12 +114,12 @@ function install_node() {
     echo '安装完成请重新连接VPS，以启用对应快捷键功能'
 }
 
-# 查看Avail服务状态
+# 查看Artela 服务状态
 function check_service_status() {
     pm2 list
 }
 
-# Avail 节点日志查询
+# Artela 节点日志查询
 function view_logs() {
     pm2 logs artela-node
 }

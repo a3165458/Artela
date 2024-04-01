@@ -127,6 +127,7 @@ function view_logs() {
 # 卸载节点功能
 function uninstall_node() {
     pm2 delete artela-node
+    rm -rf $HOME/.artelad && rm -rf artela && sudo rm -rf $(which artelad)
     echo "节点程序卸载完成。"
 }
 

@@ -184,7 +184,7 @@ function main_menu() {
         echo "7. 运行日志查询"
         echo "8. 卸载节点"
         echo "9. 设置快捷键"  
-        read -p "请输入选项（1-5）: " OPTION
+        read -p "请输入选项（1-9）: " OPTION
 
         case $OPTION in
         1) install_node ;;

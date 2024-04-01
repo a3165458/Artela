@@ -142,6 +142,28 @@ function uninstall_node() {
     esac
 }
 
+# 创建钱包
+function add_wallet() {
+    artelad keys add wallet
+}
+
+# 导入钱包
+function import_wallet() {
+    artelad keys add wallet --recover
+}
+
+# 查询余额
+function check_balances() {
+    read -p "请输入钱包地址: " wallet_address
+    artelad query bank balances "$wallet_address" 
+}
+
+# 查看节点同步状态
+function check_sync_status() {
+    artelad status 2>&1 | jq .SyncInfo
+}
+
+
 
 # 主菜单
 function main_menu() {
@@ -154,18 +176,26 @@ function main_menu() {
         echo "退出脚本，请按键盘ctrl c退出即可"
         echo "请选择要执行的操作:"
         echo "1. 安装节点"
-        echo "2. 查看服务状态"
-        echo "3. 运行日志查询"
-        echo "4. 卸载节点"
-        echo "5. 设置快捷键"  
+        echo "2. 创建钱包"
+        echo "3. 导入钱包"
+        echo "4. 查看钱包地址余额"
+        echo "5. 查看节点同步状态"
+        echo "6. 查看当前服务状态"
+        echo "7. 运行日志查询"
+        echo "8. 卸载节点"
+        echo "9. 设置快捷键"  
         read -p "请输入选项（1-5）: " OPTION
 
         case $OPTION in
         1) install_node ;;
-        2) check_service_status ;;
-        3) view_logs ;;
-        4) uninstall_node ;;
-        5) check_and_set_alias ;;
+        2) add_wallet ;;
+        3) import_wallet ;;
+        4) check_balances ;;
+        5) check_sync_status ;;
+        6) check_service_status ;;
+        7) view_logs ;;
+        8) uninstall_node ;;
+        9) check_and_set_alias ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."

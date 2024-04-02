@@ -164,6 +164,34 @@ function check_sync_status() {
     artelad status 2>&1 | jq .SyncInfo
 }
 
+# 创建验证者
+function add_validator() {
+    pubkey=$(artelad tendermint show-validator)
+    read -p "请输入您的钱包名称: " wallet_name
+    read -p "请输入您想设置的验证者的名字: " validator_name
+    read -p "请输入您的验证者详情（例如'吊毛资本'）: " details
+    sudo tee ~/validator.json > /dev/null <<EOF
+{
+  "pubkey": ${PUBKEY},
+  "amount": "1000000uart",
+  "moniker": "$validator_name",
+  "details": "$details",
+  "commission-rate": "0.1",
+  "commission-max-rate": "0.2",
+  "commission-max-change-rate": "0.01",
+  "min-self-delegation": "1"
+}
+
+EOF
+artelad tx staking create-validator validator.json --from $wallet_name  \
+--chain-id=artela_11822-1 \
+--min-self-delegation=1 \
+--from=wallet \
+--gas-prices=20000000000uart \
+--gas-adjustment=1.5 \
+--gas=auto \
+}
+
 
 
 # 主菜单
@@ -185,7 +213,8 @@ function main_menu() {
         echo "7. 运行日志查询"
         echo "8. 卸载节点"
         echo "9. 设置快捷键"  
-        read -p "请输入选项（1-9）: " OPTION
+        echo "10. 创建验证者"  
+        read -p "请输入选项（1-10）: " OPTION
 
         case $OPTION in
         1) install_node ;;
@@ -197,6 +226,7 @@ function main_menu() {
         7) view_logs ;;
         8) uninstall_node ;;
         9) check_and_set_alias ;;
+        10) add_validator ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."

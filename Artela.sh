@@ -113,6 +113,7 @@ function install_node() {
 
     echo '====================== 安装完成 ==========================='
     echo '安装完成请重新连接VPS，以启用对应快捷键功能'
+    
 }
 
 # 查看Artela 服务状态
@@ -170,7 +171,7 @@ function add_validator() {
     read -p "请输入您的钱包名称: " wallet_name
     read -p "请输入您想设置的验证者的名字: " validator_name
     read -p "请输入您的验证者详情（例如'吊毛资本'）: " details
-    sudo tee ~/validator.json > /dev/null <<EOF
+    sudo tee ~/validator.json >> /dev/null <<EOF
 {
   "pubkey": ${PUBKEY},
   "amount": "1000000uart",
@@ -190,6 +191,7 @@ artelad tx staking create-validator validator.json --from $wallet_name  \
 --gas-prices=20000000000uart \
 --gas-adjustment=1.5 \
 --gas=auto \
+
 }
 
 
@@ -232,6 +234,7 @@ function main_menu() {
         echo "按任意键返回主菜单..."
         read -n 1
     done
+    
 }
 
 # 显示主菜单

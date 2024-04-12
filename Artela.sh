@@ -197,6 +197,13 @@ artelad tx staking create-validator validator.json --from $wallet_name  \
 
 }
 
+# 给自己地址验证者质押
+function delegate_self_validator() {
+read -p "请输入质押代币数量: " math
+read -p "请输入钱包名称: " wallet_name
+artelad tx staking delegate $(artelad keys show wallet --bech val -a)  ${math}art --from $wallet_name --chain-id=artela_11822-1 --gas=300000  -y
+
+}
 
 
 # 主菜单
@@ -219,7 +226,8 @@ function main_menu() {
         echo "8. 卸载节点"
         echo "9. 设置快捷键"  
         echo "10. 创建验证者"  
-        read -p "请输入选项（1-10）: " OPTION
+        echo "11. 给自己质押" 
+        read -p "请输入选项（1-11）: " OPTION
 
         case $OPTION in
         1) install_node ;;
@@ -232,6 +240,7 @@ function main_menu() {
         8) uninstall_node ;;
         9) check_and_set_alias ;;
         10) add_validator ;;
+        11) delegate_self_validator ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."

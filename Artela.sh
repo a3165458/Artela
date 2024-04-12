@@ -167,20 +167,23 @@ function check_sync_status() {
 
 # 创建验证者
 function add_validator() {
-    pubkey=$(artelad tendermint show-validator)
     read -p "请输入您的钱包名称: " wallet_name
     read -p "请输入您想设置的验证者的名字: " validator_name
-    read -p "请输入您的验证者详情（例如'吊毛资本'）: " details
     sudo tee ~/validator.json >> /dev/null <<EOF
 {
-  "pubkey": ${PUBKEY},
-  "amount": "1000000uart",
-  "moniker": "$validator_name",
-  "details": "$details",
-  "commission-rate": "0.1",
-  "commission-max-rate": "0.2",
-  "commission-max-change-rate": "0.01",
-  "min-self-delegation": "1"
+artelad tx staking create-validator 
+--amount="100000000000000000uart" 
+--pubkey=$(artelad tendermint show-validator) 
+--moniker=$validator_name
+--commission-rate="0.10" 
+--commission-max-rate="0.20" 
+--commission-max-change-rate="0.01" 
+--min-self-delegation="1" 
+--gas=300000 
+--chain-id=artela_11822-1 
+--from=$wallet_name
+--node tcp://47.254.66.177:26657 -y
+
 }
 
 EOF

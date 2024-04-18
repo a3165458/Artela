@@ -91,6 +91,7 @@ function install_node() {
     # 配置artelad
     artelad config chain-id artela_11822-1
     artelad init "$NODE_MONIKER" --chain-id artela_11822-1
+    artelad config node tcp://localhost:3457
 
     # 获取初始文件和地址簿
     curl -s https://t-ss.nodeist.net/artela/genesis.json > $HOME/.artelad/config/genesis.json

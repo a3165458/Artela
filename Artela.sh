@@ -105,7 +105,7 @@ function install_node() {
     # 配置端口
     sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:3458\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:3457\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:3460\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:3456\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":3466\"%" $HOME/.artela/config/config.toml
     sed -i -e "s%^address = \"tcp://localhost:1317\"%address = \"tcp://0.0.0.0:3417\"%; s%^address = \":8080\"%address = \":3480\"%; s%^address = \"localhost:9090\"%address = \"0.0.0.0:3490\"%; s%^address = \"localhost:9091\"%address = \"0.0.0.0:3491\"%; s%:8545%:3445%; s%:8546%:3446%; s%:6065%:3465%" $HOME/.artela/config/app.toml
-    echo "export OG_RPC_PORT=$node_address" >> $HOME/.bash_profile
+    echo "export Artela_RPC_PORT=$node_address" >> $HOME/.bash_profile
     source $HOME/.bash_profile   
 
     # 下载快照
@@ -160,12 +160,12 @@ function import_wallet() {
 # 查询余额
 function check_balances() {
     read -p "请输入钱包地址: " wallet_address
-    artelad query bank balances "$wallet_address" 
+    artelad query bank balances "$wallet_address" --node $Artela_RPC_PORT
 }
 
 # 查看节点同步状态
 function check_sync_status() {
-    artelad status 2>&1 | jq .SyncInfo
+    artelad status 2>&1 --node $Artela_RPC_PORT| jq .SyncInfo
 }
 
 # 创建验证者
@@ -190,26 +190,17 @@ artelad tx staking create-validator \
 --gas-prices=20000000000uart \
 --gas-adjustment=1.5 \
 --gas=auto \
--y 
+--node $Artela_RPC_PORT
+-y
 
 }
 
-EOF
-artelad tx staking create-validator validator.json --from $wallet_name  \
---chain-id=artela_11822-1 \
---min-self-delegation=1 \
---from=wallet \
---gas-prices=20000000000uart \
---gas-adjustment=1.5 \
---gas=auto \
-
-}
 
 # 给自己地址验证者质押
 function delegate_self_validator() {
 read -p "请输入质押代币数量: " math
 read -p "请输入钱包名称: " wallet_name
-artelad tx staking delegate $(artelad keys show $wallet_name --bech val -a)  ${math}art --from $wallet_name --chain-id=artela_11822-1 --gas=300000  -y
+artelad tx staking delegate $(artelad keys show $wallet_name --bech val -a)  ${math}art --from $wallet_name --chain-id=artela_11822-1 --gas=300000 --node $Artela_RPC_PORT -y
 
 }
 

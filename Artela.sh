@@ -192,6 +192,7 @@ artelad tx staking create-validator \
 --gas=auto \
 --node $Artela_RPC_PORT
 -y
+EOF
 
 }
 

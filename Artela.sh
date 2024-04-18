@@ -62,13 +62,9 @@ function check_and_set_alias() {
 
 # 节点安装功能
 function install_node() {
+    node_address="http://localhost:3457"
     install_nodejs_and_npm
     install_pm2
-
-    # 检查curl是否安装，如果没有则安装
-    if ! command -v curl > /dev/null; then
-        sudo apt update && sudo apt install curl -y
-    fi
 
     # 设置变量
     read -r -p "请输入你想设置的节点名称: " NODE_MONIKER
@@ -104,6 +100,12 @@ function install_node() {
     SEEDS=""
     PEERS="b23bc610c374fd071c20ce4a2349bf91b8fbd7db@65.108.72.233:11656"
     sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.artelad/config/config.toml
+
+    # 配置端口
+    sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:3458\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:3457\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:3460\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:3456\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":3466\"%" $HOME/.artela/config/config.toml
+    sed -i -e "s%^address = \"tcp://localhost:1317\"%address = \"tcp://0.0.0.0:3417\"%; s%^address = \":8080\"%address = \":3480\"%; s%^address = \"localhost:9090\"%address = \"0.0.0.0:3490\"%; s%^address = \"localhost:9091\"%address = \"0.0.0.0:3491\"%; s%:8545%:3445%; s%:8546%:3446%; s%:6065%:3465%" $HOME/.artela/config/app.toml
+    echo "export OG_RPC_PORT=$node_address" >> $HOME/.bash_profile
+    source $HOME/.bash_profile   
 
     # 下载快照
     curl https://snapshots-testnet.nodejumper.io/artela-testnet/artela-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
@@ -171,18 +173,23 @@ function add_validator() {
     read -p "请输入您想设置的验证者的名字: " validator_name
     sudo tee ~/validator.json >> /dev/null <<EOF
 {
-artelad tx staking create-validator 
---amount="100000000000000000uart" 
---pubkey=$(artelad tendermint show-validator) 
---moniker=$validator_name
---commission-rate="0.10" 
---commission-max-rate="0.20" 
---commission-max-change-rate="0.01" 
---min-self-delegation="1" 
---gas=300000 
---chain-id=artela_11822-1 
---from=$wallet_name
---node tcp://47.254.66.177:26657 -y
+
+artelad tx staking create-validator \
+--amount=1000000uart \
+--pubkey=$(artelad tendermint show-validator) \
+--moniker="$validator_name" \
+--identity= \
+--details="" \
+--chain-id=artela_11822-1 \
+--commission-rate=0.10 \
+--commission-max-rate=0.20 \
+--commission-max-change-rate=0.01 \
+--min-self-delegation=1 \
+--from=$wallet_name \
+--gas-prices=20000000000uart \
+--gas-adjustment=1.5 \
+--gas=auto \
+-y 
 
 }
 

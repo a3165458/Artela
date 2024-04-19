@@ -173,7 +173,7 @@ function add_validator() {
     read -p "请输入您的钱包名称: " wallet_name
     read -p "请输入您想设置的验证者的名字: " validator_name
     
-artelad tx staking create-validator \
+artelad tx staking create-validator --node $Artela_RPC_PORT \
 --amount 1000000uart \
 --from $wallet_name \
 --commission-rate 0.1 \
@@ -186,7 +186,6 @@ artelad tx staking create-validator \
 --details "" \
 --chain-id artela_11822-1 \
 --gas 300000 \
---node $Artela_RPC_PORT \
 -y
 
 }

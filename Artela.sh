@@ -172,9 +172,7 @@ function check_sync_status() {
 function add_validator() {
     read -p "请输入您的钱包名称: " wallet_name
     read -p "请输入您想设置的验证者的名字: " validator_name
-    sudo tee ~/validator.json >> /dev/null <<EOF
-{
-
+    
 artelad tx staking create-validator \
 --amount=1000000uart \
 --pubkey=$(artelad tendermint show-validator) \
@@ -192,7 +190,6 @@ artelad tx staking create-validator \
 --gas=auto \
 --node $Artela_RPC_PORT
 -y
-EOF
 
 }
 

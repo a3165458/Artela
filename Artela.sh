@@ -62,7 +62,7 @@ function check_and_set_alias() {
 
 # 节点安装功能
 function install_node() {
-    node_address="http://localhost:3457"
+    node_address="tcp://localhost:3457"
     install_nodejs_and_npm
     install_pm2
 

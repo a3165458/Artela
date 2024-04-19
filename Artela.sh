@@ -174,21 +174,19 @@ function add_validator() {
     read -p "请输入您想设置的验证者的名字: " validator_name
     
 artelad tx staking create-validator \
---amount=1000000uart \
---pubkey=$(artelad tendermint show-validator) \
---moniker="$validator_name" \
---identity= \
---details="" \
---chain-id=artela_11822-1 \
---commission-rate=0.10 \
---commission-max-rate=0.20 \
---commission-max-change-rate=0.01 \
---min-self-delegation=1 \
---from=$wallet_name \
---gas-prices=20000000000uart \
---gas-adjustment=1.5 \
---gas=auto \
---node $Artela_RPC_PORT
+--amount 1000000uart \
+--from $wallet_name \
+--commission-rate 0.1 \
+--commission-max-rate 0.2 \
+--commission-max-change-rate 0.01 \
+--min-self-delegation 1 \
+--pubkey $(artelad tendermint show-validator) \
+--moniker "$validator_name" \
+--identity "" \
+--details "" \
+--chain-id artela_11822-1 \
+--gas 300000 \
+--node $Artela_RPC_PORT \
 -y
 
 }

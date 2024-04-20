@@ -35,6 +35,17 @@ function install_pm2() {
     fi
 }
 
+# 检查Go环境
+function check_go_installation() {
+    if command -v go > /dev/null 2>&1; then
+        echo "Go 环境已安装"
+        return 0 
+    else
+        echo "Go 环境未安装，正在安装..."
+        return 1 
+    fi
+}
+
 # 自动设置快捷键的功能
 function check_and_set_alias() {
     local alias_name="art"
@@ -74,12 +85,14 @@ function install_node() {
     sudo apt update && sudo apt upgrade -y
     sudo apt install -y curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev lz4 snapd
 
-    # 安装Go
-    sudo rm -rf /usr/local/go
-    curl -L https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-    echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
-    export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
-    source $HOME/.bash_profile
+    # 安装 Go
+    if ! check_go_installation; then
+        sudo rm -rf /usr/local/go
+        curl -L https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
+        echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
+        source $HOME/.bash_profile
+        go version
+    fi
 
     # 安装所有二进制文件
     cd $HOME

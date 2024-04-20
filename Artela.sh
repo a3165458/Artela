@@ -122,7 +122,8 @@ function install_node() {
     source $HOME/.bash_profile   
 
     # 下载快照
-    curl https://snapshots-testnet.nodejumper.io/artela-testnet/artela-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
+    SNAP_NAME=$(curl -s https://ss-t.artela.nodestake.org/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
+    curl -o - -L https://ss-t.artela.nodestake.org/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/.artelad
 
     # 使用 PM2 启动节点进程
     pm2 start artelad -- start && pm2 save && pm2 startup

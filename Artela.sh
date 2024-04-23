@@ -179,7 +179,7 @@ function check_balances() {
 
 # 查看节点同步状态
 function check_sync_status() {
-    artelad status 2>&1 | jq .SyncInfo
+    artelad status 2>&1 --node $Artela_RPC_PORT | jq .SyncInfo
 }
 
 # 创建验证者
@@ -209,7 +209,7 @@ artelad tx staking create-validator \
 function delegate_self_validator() {
 read -p "请输入质押代币数量: " math
 read -p "请输入钱包名称: " wallet_name
-artelad tx staking delegate $(artelad keys show $wallet_name --bech val -a)  ${math}art --from $wallet_name --chain-id=artela_11822-1 --gas=300000 -y
+artelad tx staking delegate $(artelad keys show $wallet_name --bech val -a)  ${math}art --from $wallet_name --chain-id=artela_11822-1 --gas=300000 --node $Artela_RPC_PORT  -y
 
 }
 

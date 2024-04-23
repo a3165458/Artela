@@ -174,12 +174,12 @@ function import_wallet() {
 # 查询余额
 function check_balances() {
     read -p "请输入钱包地址: " wallet_address
-    artelad query bank balances "$wallet_address" --node $Artela_RPC_PORT
+    artelad query bank balances "$wallet_address"
 }
 
 # 查看节点同步状态
 function check_sync_status() {
-    artelad status 2>&1 --node $Artela_RPC_PORT| jq .SyncInfo
+    artelad status 2>&1 | jq .SyncInfo
 }
 
 # 创建验证者
@@ -187,7 +187,7 @@ function add_validator() {
     read -p "请输入您的钱包名称: " wallet_name
     read -p "请输入您想设置的验证者的名字: " validator_name
     
-artelad tx staking create-validator --node $Artela_RPC_PORT \
+artelad tx staking create-validator \
 --amount 1000000uart \
 --from $wallet_name \
 --commission-rate 0.1 \
@@ -209,7 +209,7 @@ artelad tx staking create-validator --node $Artela_RPC_PORT \
 function delegate_self_validator() {
 read -p "请输入质押代币数量: " math
 read -p "请输入钱包名称: " wallet_name
-artelad tx staking delegate $(artelad keys show $wallet_name --bech val -a)  ${math}art --from $wallet_name --chain-id=artela_11822-1 --gas=300000 --node $Artela_RPC_PORT -y
+artelad tx staking delegate $(artelad keys show $wallet_name --bech val -a)  ${math}art --from $wallet_name --chain-id=artela_11822-1 --gas=300000 -y
 
 }
 

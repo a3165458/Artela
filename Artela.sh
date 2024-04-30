@@ -121,13 +121,16 @@ function install_node() {
     echo "export Artela_RPC_PORT=$node_address" >> $HOME/.bash_profile
     source $HOME/.bash_profile   
 
+    pm2 start artelad -- start && pm2 save && pm2 startup
+    
     # 下载快照
     SNAP_NAME=$(curl -s https://ss-t.artela.nodestake.org/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
     curl -o - -L https://ss-t.artela.nodestake.org/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/.artelad
     mv $HOME/.artelad/priv_validator_state.json.backup $HOME/.artelad/data/priv_validator_state.json
 
     # 使用 PM2 启动节点进程
-    pm2 start artelad -- start && pm2 save && pm2 startup
+
+    pm2 restart artelad
 
     echo '====================== 安装完成 ==========================='
     echo '安装完成请重新连接VPS，以启用对应快捷键功能'

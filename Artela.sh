@@ -107,8 +107,8 @@ function install_node() {
     artelad config node tcp://localhost:3457
 
     # 获取初始文件和地址簿
-    curl -s https://t-ss.nodeist.net/artela/genesis.json > $HOME/.artelad/config/genesis.json
-    wget -O $HOME/.artelad/config/addrbook.json https://testnet-files.itrocket.net/artela/addrbook.json
+    curl -L https://snapshots-testnet.nodejumper.io/artela-testnet/genesis.json > $HOME/.artelad/config/genesis.json
+    curl -L https://snapshots-testnet.nodejumper.io/artela-testnet/addrbook.json > $HOME/.artelad/config/addrbook.json
 
     # 配置节点
     SEEDS=""
@@ -124,9 +124,7 @@ function install_node() {
     pm2 start artelad -- start && pm2 save && pm2 startup
     
     # 下载快照
-    SNAP_NAME=$(curl -s https://ss-t.artela.nodestake.org/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
-    curl -o - -L https://ss-t.artela.nodestake.org/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/.artelad
-    mv $HOME/.artelad/priv_validator_state.json.backup $HOME/.artelad/data/priv_validator_state.json
+    curl https://testnet-files.itrocket.net/artela/snap_artela.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
 
     # 使用 PM2 启动节点进程
 

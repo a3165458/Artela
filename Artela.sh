@@ -112,8 +112,8 @@ function install_node() {
 
     # 配置节点
     SEEDS=""
-    PEERS="5c9b1bc492aad27a0197a6d3ea3ec9296504e6fd@artela-testnet-peer.itrocket.net:30656,13db40d2414b94a7aa112b5f0ad4e5db9cecd85e@[2a03:4000:4a:f20:58db:a3ff:fecf:350e]:26656,d7397785f30c764459edba3aabcc98cb40ab5304@89.117.58.61:45656,635fda81fe7aedcc755f29069a09afbc852e475f@143.198.70.161:26656,3c95560d9782e9e7cec5a45e67ad1a6e0aa68ff0@37.27.39.241:26656,a4b81662b44c89696cef0e37bb84a0f921c9e164@37.120.178.205:56656,117cf4dac7838128b3ae61e11626b7e55b1476d6@167.86.93.193:26656,31582a1e8ee7276e9a669dcfb609e2d4f47b029b@193.164.4.110:45656,887a45dca2fbbe73e7c8bcf836d81a3c2e4cfa53@37.60.229.253:30656,978dee673bd447147f61aa5a1bdaabdfb8f8b853@47.88.57.107:26656,30fb0055aced21472a01911353101bc4cd356bb3@47.89.230.117:26656"
-    sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.artelad/config/config.toml
+    PEERS="096d8b3a2fe79791ef307935e0b72afcf505b149@84.247.140.122:24656,a01a5d0015e685655b1334041d907ce2db51c02f@173.249.16.25:45656,8542e4e88e01f9c95db2cd762460eecad2d66583@155.133.26.10:26656,dd5d35fb496afe468dd35213270b02b3a415f655@15.235.144.20:30656,8510929e6ba058e84019b1a16edba66e880744e1@217.76.50.155:656,f16f036a283c5d2d77d7dc564f5a4dc6cf89393b@91.190.156.180:42656,6554c18f24455cf1b60eebcc8b311a693371881a@164.68.114.21:45656,301d46637a338c2855ede5d2a587ad1f366f3813@95.217.200.98:18656"
+    sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.artelad/config/config.toml
 
     # 配置端口
     sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:3458\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:3457\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:3460\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:3456\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":3466\"%" $HOME/.artelad/config/config.toml

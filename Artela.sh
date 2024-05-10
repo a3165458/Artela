@@ -124,7 +124,7 @@ function install_node() {
     pm2 start artelad -- start && pm2 save && pm2 startup
     
     # 下载快照
-    curl https://testnet-files.itrocket.net/artela/snap_artela.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
+    curl -L https://smeby.fun/artelad_snapshots.tar.lz4 | tar -I lz4 -xf - -C $HOME/.artelad/data
 
     # 使用 PM2 启动节点进程
 

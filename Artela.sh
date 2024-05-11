@@ -176,7 +176,7 @@ function import_wallet() {
 # 查询余额
 function check_balances() {
     read -p "请输入钱包地址: " wallet_address
-    artelad query bank balances "$wallet_address"
+    artelad query bank balances "$wallet_address" --node $Artela_RPC_PORT
 }
 
 # 查看节点同步状态
@@ -189,7 +189,7 @@ function add_validator() {
     read -p "请输入您的钱包名称: " wallet_name
     read -p "请输入您想设置的验证者的名字: " validator_name
     
-artelad tx staking create-validator \
+artelad tx staking create-validator --node $Artela_RPC_PORT \
 --amount 1000000uart \
 --from $wallet_name \
 --commission-rate 0.1 \

@@ -202,7 +202,6 @@ artelad tx staking create-validator --node $Artela_RPC_PORT \
 --details "" \
 --chain-id artela_11822-1 \
 --gas 300000 \
--y
 
 }
 

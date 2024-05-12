@@ -124,7 +124,9 @@ function install_node() {
     pm2 start artelad -- start && pm2 save && pm2 startup
     
     # 下载快照
-    curl -L https://smeby.fun/artelad_snapshots.tar.lz4 | tar -I lz4 -xf - -C $HOME/.artelad/data
+    SNAP_NAME=$(curl -s https://ss-t.artela.nodestake.org/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
+    curl -o - -L https://ss-t.artela.nodestake.org/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/.artelad
+    mv $HOME/.artelad/priv_validator_state.json.backup $HOME/.artelad/data/priv_validator_state.json
 
     # 使用 PM2 启动节点进程
 

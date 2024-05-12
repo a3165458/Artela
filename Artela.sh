@@ -102,8 +102,8 @@ function install_node() {
     make install
 
     # 配置artelad
-    artelad config chain-id artela_11820-1
-    artelad init "$NODE_MONIKER" --chain-id artela_11820-1
+    artelad config chain-id artela_11822-1
+    artelad init "$NODE_MONIKER" --chain-id artela_11822-1
     artelad config node tcp://localhost:3457
 
     # 获取初始文件和地址簿

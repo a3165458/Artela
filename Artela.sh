@@ -124,8 +124,8 @@ function install_node() {
     pm2 start artelad -- start && pm2 save && pm2 startup
     
     # 下载快照
-    SNAP_NAME=$(curl -s https://ss-t.artela.nodestake.org/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
-    curl -o - -L https://ss-t.artela.nodestake.org/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/.artelad
+    artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
+    curl https://snapshots-testnet.nodejumper.io/artela-testnet/artela-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
     mv $HOME/.artelad/priv_validator_state.json.backup $HOME/.artelad/data/priv_validator_state.json
 
     # 使用 PM2 启动节点进程
@@ -133,7 +133,6 @@ function install_node() {
     pm2 restart artelad
 
     echo '====================== 安装完成,请退出脚本后执行 source $HOME/.bash_profile 以加载环境变量 ==========================='
-    echo '安装完成请重新连接VPS，以启用对应快捷键功能'
     
 }
 

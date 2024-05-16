@@ -215,6 +215,12 @@ artelad tx staking delegate $(artelad keys show $wallet_name --bech val -a)  ${m
 
 }
 
+# 导入钱包
+function export_priv_validator_key() {
+    echo "====================请将下方所有内容备份到自己的记事本或者excel表格中记录==========================================="
+    cat ~/.artelad/config/priv_validator_key.json
+    
+}
 
 # 主菜单
 function main_menu() {
@@ -238,6 +244,7 @@ function main_menu() {
         echo "9. 设置快捷键"  
         echo "10. 创建验证者"  
         echo "11. 给自己质押" 
+        echo "12. 备份验证者节点" 
         read -p "请输入选项（1-11）: " OPTION
 
         case $OPTION in
@@ -252,6 +259,7 @@ function main_menu() {
         9) check_and_set_alias ;;
         10) add_validator ;;
         11) delegate_self_validator ;;
+        12) export_priv_validator_key ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."

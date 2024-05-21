@@ -193,9 +193,6 @@ function add_validator() {
 artelad tx staking create-validator --node $Artela_RPC_PORT \
 --amount 1000000uart \
 --from $wallet_name \
---commission-rate 0.1 \
---commission-max-rate 0.2 \
---commission-max-change-rate 0.01 \
 --min-self-delegation 1 \
 --pubkey $(artelad tendermint show-validator) \
 --moniker "$validator_name" \

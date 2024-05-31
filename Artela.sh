@@ -182,7 +182,7 @@ function check_balances() {
 
 # 查看节点同步状态
 function check_sync_status() {
-    artelad status --node $Artela_RPC_PORT | jq .SyncInfo
+    artelad status | jq .SyncInfo
 }
 
 # 创建验证者

@@ -220,6 +220,14 @@ function export_priv_validator_key() {
     
 }
 
+
+function update_script() {
+    SCRIPT_URL="https://raw.githubusercontent.com/a3165458/Artela/main/Artela.sh"
+    curl -o $SCRIPT_PATH $SCRIPT_URL
+    chmod +x $SCRIPT_PATH
+    echo "脚本已更新。请退出脚本后，执行bash Artela.sh 重新运行此脚本。"
+}
+
 # 主菜单
 function main_menu() {
     while true; do
@@ -243,7 +251,8 @@ function main_menu() {
         echo "10. 创建验证者"  
         echo "11. 给自己质押" 
         echo "12. 备份验证者私钥" 
-        read -p "请输入选项（1-11）: " OPTION
+        echo "13. 更新本脚本" 
+        read -p "请输入选项（1-13）: " OPTION
 
         case $OPTION in
         1) install_node ;;
@@ -258,6 +267,7 @@ function main_menu() {
         10) add_validator ;;
         11) delegate_self_validator ;;
         12) export_priv_validator_key ;;
+        13) update_script ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."

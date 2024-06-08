@@ -102,11 +102,7 @@ function install_node() {
     sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.artelad/config/config.toml
 
     # 配置裁剪
-    sed -i \
-    -e 's|^pruning *=.*|pruning = "custom"|' \
-    -e 's|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|' \
-    -e 's|^pruning-interval *=.*|pruning-interval = "17"|' \
-    $HOME/.artelad/config/app.toml
+    sed -i 's|^pruning *=.*|pruning = "custom"|; s|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|; s|^pruning-interval *=.*|pruning-interval = "17"|' $HOME/.artelad/config/app.toml
 
     # 配置端口
     node_address="tcp://localhost:3457"

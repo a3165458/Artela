@@ -102,7 +102,7 @@ function install_node() {
     sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.artelad/config/config.toml
 
     # 配置裁剪
-    sed -i 's|^pruning *=.*|pruning = "custom"|; s|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|; s|^pruning-interval *=.*|pruning-interval = "17"|' $HOME/.artelad/config/app.toml
+    sed -i 's|^pruning *=.*|pruning = "custom"|; s|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|; s|^pruning-interval *=.*|pruning-interval = "10"|' $HOME/.artelad/config/app.toml
 
     # 配置端口
     node_address="tcp://localhost:3457"
@@ -115,7 +115,7 @@ function install_node() {
     
     # 下载快照
     artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
-    curl https://snapshots-testnet.nodejumper.io/artela-testnet/artela-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
+    curl -L https://snapshots.dadunode.com/artela/artelad_latest_tar.lz4 | tar -I lz4 -xf - -C $HOME/.artelad/data
     mv $HOME/.artelad/priv_validator_state.json.backup $HOME/.artelad/data/priv_validator_state.json
 
     # 使用 PM2 启动节点进程

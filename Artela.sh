@@ -87,6 +87,11 @@ function install_node() {
     git checkout v0.4.7-rc7
     make install
 
+    cd $HOME
+    cd ~/.artelad && mkdir libs && cd libs
+    wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7/artelad_0.4.7_rc7_Linux_amd64.tar.gz
+    tar -xzvf artelad_0.4.7_rc7_Linux_amd64.tar.gz
+
     # 配置artelad
     artelad config chain-id artela_11822-1
     artelad init "$NODE_MONIKER" --chain-id artela_11822-1
@@ -114,11 +119,6 @@ function install_node() {
     sed -i -e "s%^address = \"tcp://localhost:1317\"%address = \"tcp://0.0.0.0:3417\"%; s%^address = \":8080\"%address = \":3480\"%; s%^address = \"localhost:9090\"%address = \"0.0.0.0:3490\"%; s%^address = \"localhost:9091\"%address = \"0.0.0.0:3491\"%; s%:8545%:3445%; s%:8546%:3446%; s%:6065%:3465%" $HOME/.artelad/config/app.toml
     echo "export Artela_RPC_PORT=$node_address" >> $HOME/.bash_profile
     source $HOME/.bash_profile   
-
-    cd $HOME
-    cd ~/.artelad && mkdir libs && cd libs
-    wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7/artelad_0.4.7_rc7_Linux_amd64.tar.gz
-    tar -xzvf artelad_0.4.7_rc7_Linux_amd64.tar.gz
 
     pm2 start artelad -- start && pm2 save && pm2 startup
     

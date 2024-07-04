@@ -91,6 +91,8 @@ function install_node() {
     cd ~/.artelad && mkdir libs && cd libs
     wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7/artelad_0.4.7_rc7_Linux_amd64.tar.gz
     tar -xzvf artelad_0.4.7_rc7_Linux_amd64.tar.gz
+    echo 'export LD_LIBRARY_PATH=/root/.artelad/libs:$LD_LIBRARY_PATH' >> ~/.bashrc
+    source ~/.bashrc
 
     # 配置artelad
     artelad config chain-id artela_11822-1
@@ -124,8 +126,8 @@ function install_node() {
     
     # 下载快照
     artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
-    curl -L https://snapshots.dadunode.com/artela/artela_latest_tar.lz4 | tar -I lz4 -xf - -C $HOME/.artelad/data
-    mv $HOME/.artelad/priv_validator_state.json.backup $HOME/.artelad/data/priv_validator_state.json
+    wget -O lasted_snapshot.tar.lz4 https://public-snapshot-storage-develop.s3.amazonaws.com/artela/artela_11822-1/snapshots/artela_9366339.tar.lz4
+    lz4 -c -d lasted_snapshot.tar.lz4 | tar -x -C $HOME/.artelad
 
     # 使用 PM2 启动节点进程
 

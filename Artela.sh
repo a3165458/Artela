@@ -84,7 +84,7 @@ function install_node() {
     cd $HOME
     git clone https://github.com/artela-network/artela
     cd artela
-    git checkout v0.4.7-rc6
+    git checkout v0.4.7-rc7
     make install
 
     # 配置artelad

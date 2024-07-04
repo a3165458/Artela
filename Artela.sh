@@ -115,6 +115,11 @@ function install_node() {
     echo "export Artela_RPC_PORT=$node_address" >> $HOME/.bash_profile
     source $HOME/.bash_profile   
 
+    cd $HOME
+    cd ~/.artelad && mkdir libs && cd libs
+    wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7/artelad_0.4.7_rc7_Linux_amd64.tar.gz
+    tar -xzvf artelad_0.4.7_rc7_Linux_amd64.tar.gz
+
     pm2 start artelad -- start && pm2 save && pm2 startup
     
     # 下载快照

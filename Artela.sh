@@ -85,17 +85,7 @@ function install_node() {
     git clone https://github.com/artela-network/artela
     cd artela
     git checkout v0.4.7-rc7-fix-execution 
-    make build
-
-    # Setup the folder for Cosmovisor
-    mkdir -p $HOME/.artelad/cosmovisor/genesis/bin
-    mv build/artelad $HOME/.artelad/cosmovisor/genesis/bin
-
-    # Create binary symlinks 
-    sudo ln -s $HOME/.artelad/cosmovisor/genesis $HOME/.artelad/cosmovisor/current -f
-    sudo ln -s $HOME/.artelad/cosmovisor/current/bin/artelad /usr/local/bin/artelad -f
-
-    go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
+    make install
 
     # 配置artelad
     artelad config chain-id artela_11822-1

@@ -128,7 +128,7 @@ function install_node() {
     
     # 下载快照
     artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
-    wget -O lasted_snapshot.tar.lz4 https://public-snapshot-storage-develop.s3.amazonaws.com/artela/artela_11822-1/snapshots/artela_9366339.tar.lz4
+    wget -O lasted_snapshot.tar.lz4 https://public-snapshot-storage-develop.s3.amazonaws.com/artela/artela_11822-1/snapshots/artela_9622238.tar.lz4
     lz4 -c -d lasted_snapshot.tar.lz4 | tar -x -C $HOME/.artelad
 
     # 使用 PM2 启动节点进程

@@ -84,17 +84,18 @@ function install_node() {
     cd $HOME
     git clone https://github.com/artela-network/artela
     cd artela
-    git checkout main
-    make install
+    git checkout v0.4.7-rc7-fix-execution 
+    make build
 
-    cd $HOME
-    wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7-fix-execution/artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
-    tar -xvf artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
-    mkdir libs
-    mv $HOME/libaspect_wasm_instrument.so $HOME/libs/
-    mv $HOME/artelad /usr/local/bin/
-    echo 'export LD_LIBRARY_PATH=$HOME/libs:$LD_LIBRARY_PATH' >> ~/.bashrc
-    source ~/.bashrc
+    # Setup the folder for Cosmovisor
+    mkdir -p $HOME/.artelad/cosmovisor/genesis/bin
+    mv build/artelad $HOME/.artelad/cosmovisor/genesis/bin
+
+    # Create binary symlinks 
+    sudo ln -s $HOME/.artelad/cosmovisor/genesis $HOME/.artelad/cosmovisor/current -f
+    sudo ln -s $HOME/.artelad/cosmovisor/current/bin/artelad /usr/local/bin/artelad -f
+
+    go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
 
     # 配置artelad
     artelad config chain-id artela_11822-1
@@ -128,8 +129,8 @@ function install_node() {
     
     # 下载快照
     artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
-    wget -O lasted_snapshot.tar.lz4 https://snapshots.dadunode.com/artela/artela_latest_tar.lz4
-    lz4 -c -d lasted_snapshot.tar.lz4 | tar -x -C $HOME/.artelad/data
+    wget -O lasted_snapshot.tar.lz4 https://public-snapshot-storage-develop.s3.amazonaws.com/artela/artela_11822-1/snapshots/artela_9622238.tar.lz4
+    lz4 -c -d lasted_snapshot.tar.lz4 | tar -x -C $HOME/.artelad
 
     # 使用 PM2 启动节点进程
 

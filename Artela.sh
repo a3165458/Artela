@@ -86,11 +86,23 @@ function install_node() {
     cd artela
     git checkout v0.4.7-rc7-fix-execution 
     make install
+    
+    cd $HOME
+    wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7-fix-execution/artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
+    tar -xvf artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
+    mkdir libs
+    mv $HOME/libaspect_wasm_instrument.so $HOME/libs/
+    mv $HOME/artelad /usr/local/bin/
+    echo 'export LD_LIBRARY_PATH=$HOME/libs:$LD_LIBRARY_PATH' >> ~/.bashrc
+    source ~/.bashrc
+    
 
     # 配置artelad
     artelad config chain-id artela_11822-1
     artelad init "$NODE_MONIKER" --chain-id artela_11822-1
     artelad config node tcp://localhost:3457
+
+
 
     # 获取初始文件和地址簿
     curl -L https://snapshots.dadunode.com/artela/genesis.json > $HOME/.artelad/config/genesis.json

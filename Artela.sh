@@ -93,8 +93,8 @@ function install_node() {
     mkdir libs
     mv $HOME/libaspect_wasm_instrument.so $HOME/libs/
     mv $HOME/artelad /usr/local/bin/
-    echo 'export LD_LIBRARY_PATH=$HOME/libs:$LD_LIBRARY_PATH' >> ~/.bashrc
-    source ~/.bashrc
+    echo 'export LD_LIBRARY_PATH=$HOME/libs:$LD_LIBRARY_PATH' >> ~/.bash_profile
+    source ~/.bash_profile
     
 
     # 配置artelad

@@ -227,10 +227,21 @@ function export_priv_validator_key() {
 
 
 function update_script() {
+    SCRIPT_PATH="./Artela.sh"  # 定义脚本路径
     SCRIPT_URL="https://raw.githubusercontent.com/a3165458/Artela/main/Artela.sh"
-    curl -o $SCRIPT_PATH $SCRIPT_URL
-    chmod +x $SCRIPT_PATH
-    echo "脚本已更新。请退出脚本后，执行bash Artela.sh 重新运行此脚本。"
+    
+    # 备份原始脚本
+    cp $SCRIPT_PATH "${SCRIPT_PATH}.bak"
+    
+    # 下载新脚本并检查是否成功
+    if curl -o $SCRIPT_PATH $SCRIPT_URL; then
+        chmod +x $SCRIPT_PATH
+        echo "脚本已更新。请退出脚本后，执行bash Artela.sh 重新运行此脚本。"
+    else
+        echo "更新失败。正在恢复原始脚本。"
+        mv "${SCRIPT_PATH}.bak" $SCRIPT_PATH
+    fi
+
 }
 
 # 主菜单

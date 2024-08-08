@@ -84,7 +84,7 @@ function install_node() {
     cd $HOME
     git clone https://github.com/artela-network/artela
     cd artela
-    git checkout v0.4.7-rc7-fix-execution 
+    git checkout v0.4.8-rc8
     make install
     
     cd $HOME
@@ -246,6 +246,8 @@ function update_script() {
 
 function update_node() {
 
+pm2 delete artelad
+
 mv ~/.artelad ~/artelad_back_up
 rsync -av --exclude "data" ~/artelad_back_up/* ~/.artelad
 cd && rm -rf artela
@@ -254,6 +256,18 @@ cd artela
 LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
 git checkout $LATEST_TAG
 make install
+
+cd $HOME
+wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7-fix-execution/artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
+tar -xvf artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
+mkdir libs
+mv $HOME/libaspect_wasm_instrument.so $HOME/libs/
+mv $HOME/artelad /usr/local/bin/
+echo 'export LD_LIBRARY_PATH=$HOME/libs:$LD_LIBRARY_PATH' >> ~/.bash_profile
+source ~/.bash_profile
+
+pm2 start artelad -- start && pm2 save && pm2 startup
+
 echo "更新版本 $LATEST_TAG 内容输出 $(date)" >> ~/artela_update_log.txt
 
 }

@@ -244,6 +244,21 @@ function update_script() {
 
 }
 
+function update_node() {
+
+mv ~/.artelad ~/artelad_back_up
+rsync -av --exclude "data" ~/artelad_back_up/* ~/.artelad
+cd && rm -rf artela
+git clone https://github.com/artela-network/artela
+cd artela
+LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+git checkout $LATEST_TAG
+make install
+echo "更新版本 $LATEST_TAG 内容输出 $(date)" >> ~/artela_update_log.txt
+
+}
+
+
 # 主菜单
 function main_menu() {
     while true; do
@@ -268,7 +283,8 @@ function main_menu() {
         echo "11. 给自己质押" 
         echo "12. 备份验证者私钥" 
         echo "13. 更新本脚本" 
-        read -p "请输入选项（1-13）: " OPTION
+        echo "14. 升级节点程序" 
+        read -p "请输入选项（1-14）: " OPTION
 
         case $OPTION in
         1) install_node ;;
@@ -284,6 +300,7 @@ function main_menu() {
         11) delegate_self_validator ;;
         12) export_priv_validator_key ;;
         13) update_script ;;
+        14) update_node ;;
         *) echo "无效选项。" ;;
         esac
         echo "按任意键返回主菜单..."

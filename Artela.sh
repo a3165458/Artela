@@ -131,7 +131,7 @@ function install_node() {
     
     # 下载快照
     artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
-    curl -L https://snapshots.dadunode.com/artela/artela_latest_tar.lz4 | tar -I lz4 -xf - -C $HOME/.artelad/data
+    curl https://snapshots-testnet.nodejumper.io/artela-testnet/artela-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad
 
     # 使用 PM2 启动节点进程
 

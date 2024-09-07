@@ -256,8 +256,8 @@ git checkout $LATEST_TAG
 make install
 
 cd $HOME
-wget https://github.com/artela-network/artela/releases/download/v0.4.9-rc9/artelad_v0.4.9-rc9_Linux_amd64.tar.gz
-tar -xvf artelad_v0.4.9-rc9_Linux_amd64.tar.gz
+wget https://github.com/artela-network/artela/releases/download/v0.4.9-rc9/artelad_0.4.9_rc9_Linux_amd64.tar.gz
+tar -xvf artelad_0.4.9_rc9_Linux_amd64.tar.gz
 cp artelad /usr/local/bin/artelad && cp artelad /root/go/bin/artelad
 mkdir libs
 mv $HOME/libaspect_wasm_instrument.so $HOME/libs/

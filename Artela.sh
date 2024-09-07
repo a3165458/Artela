@@ -84,12 +84,12 @@ function install_node() {
     cd $HOME
     git clone https://github.com/artela-network/artela
     cd artela
-    git checkout v0.4.8-rc8
+    git checkout v0.4.9-rc9
     make install
     
     cd $HOME
-    wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7-fix-execution/artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
-    tar -xvf artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
+    wget https://github.com/artela-network/artela/releases/download/v0.4.9-rc9/artelad_0.4.9_rc9_Linux_amd64.tar.gz
+    tar -xvf artelad_0.4.9_rc9_Linux_amd64.tar.gz
     mkdir libs
     mv $HOME/libaspect_wasm_instrument.so $HOME/libs/
     mv $HOME/artelad /usr/local/bin/
@@ -258,8 +258,8 @@ git checkout $LATEST_TAG
 make install
 
 cd $HOME
-wget https://github.com/artela-network/artela/releases/download/v0.4.7-rc7-fix-execution/artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
-tar -xvf artelad_0.4.7_rc7_fix_execution_Linux_amd64.tar.gz
+wget https://github.com/artela-network/artela/releases/download/v0.4.9-rc9/artelad_v0.4.9-rc9_Linux_amd64.tar.gz
+tar -xvf artelad_v0.4.9-rc9_Linux_amd64.tar.gz
 mkdir libs
 mv $HOME/libaspect_wasm_instrument.so $HOME/libs/
 mv $HOME/artelad /usr/local/bin/

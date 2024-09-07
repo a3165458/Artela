@@ -265,6 +265,7 @@ mv $HOME/libaspect_wasm_instrument.so $HOME/libs/
 mv $HOME/artelad /usr/local/bin/
 echo 'export LD_LIBRARY_PATH=$HOME/libs:$LD_LIBRARY_PATH' >> ~/.bash_profile
 source ~/.bash_profile
+wget -O ~/.artelad/data/priv_validator_state.json  https://snapshots.dadunode.com/artela/priv_validator_state.json
 
 pm2 start artelad -- start && pm2 save && pm2 startup
 
